@@ -32,7 +32,7 @@ public class Exporter {
     public Exporter(){
         database=new DBFuntions();
         database.openConnection();
-        setPath("data/");
+        setPath("");
         setFilterByCategory(false);
         setFilterByExpressionSize(false);
         setFilterByUserNickName(false);
@@ -118,7 +118,7 @@ public class Exporter {
 
      public ArrayList<MathExpressionSample> getModelExpressionSamples(){
         ArrayList<MathExpressionSample> samples=new ArrayList<MathExpressionSample>();
-        ArrayList<ModelExpression> models=database.getAllModelExpressions();
+        ArrayList<ModelExpression> models=database.getModelExpressions();
         for (ModelExpression modelExpression : models) {
             DMathExpression dmathModel = modelExpression.getdMathExpression();
             MathExpressionSample me=new MathExpressionSample(
@@ -198,7 +198,7 @@ public class Exporter {
         teste2.setFilterByExpressionSize(true);
         teste2.exportDatasetToInkML();
     }
-    
+
     public boolean isFilterByCategory() {
         return filterByCategory;
     }

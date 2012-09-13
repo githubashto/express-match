@@ -1,0 +1,265 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * AdministratorMainPanel.java
+ *
+ * Created on 08-ago-2011, 11:45:40
+ */
+
+package br.usp.ime.faguilar.guis;
+
+import DatabaseMathExpressions.Category;
+import DatabaseMathExpressions.DBFuntions;
+import br.usp.ime.faguilar.guis.capturers.PanInputModelExpression;
+import br.usp.ime.faguilar.guis.capturers.PanInputUserMathExpression;
+import br.usp.ime.faguilar.guis.MathExpressionDrawing.Panels.PanWriting;
+import Users.User;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author frank
+ */
+public class AdministratorMainPanel extends javax.swing.JPanel {
+
+    private PanLabeling panDBContent;
+    private PanDBconfiguration panDBconfiguration;
+    private  PanInputModelExpression panInputModelExpression;
+    private PanInputUserMathExpression panInputUserMathExpression;
+
+    private DBFuntions dbFunctions;
+    //private PanInputUserMathExpression pInputUserMathExpressions;
+    /** Creates new form AdministratorMainPanel */
+    public AdministratorMainPanel() {
+        initComponents();
+        configureAll();
+    }
+
+    private void configureAll(){
+        panDBContent=new PanLabeling();
+        panDBconfiguration=new PanDBconfiguration();
+        
+        panInputModelExpression=new PanInputModelExpression();
+        panInputModelExpression.setPanFather(panDBContent);
+        
+        panInputUserMathExpression=new PanInputUserMathExpression();
+
+        CentralPanelHandler toggleButtonshandler=new CentralPanelHandler();
+        //pInputUserMathExpressions=new PanInputUserMathExpression();
+
+        this.jTogButDatabseConfiguration.addItemListener(toggleButtonshandler);
+        this.jTogButModelsMatching.addItemListener(toggleButtonshandler);
+        this.jTogButAddModelExpression.addItemListener(toggleButtonshandler);
+        this.jTogButAddUserExpression.addItemListener(toggleButtonshandler);
+        Dimension screenDim=Toolkit.getDefaultToolkit().getScreenSize();
+        double screenFactor=0.9;
+        Dimension myDimension=new Dimension(1000,700);//new Dimension((int)(screenDim.getWidth()*screenFactor),
+               // (int)(screenDim.getHeight()*screenFactor));
+        this.setPreferredSize(myDimension);
+        }
+
+    public DBFuntions getDbFunctions() {
+        return dbFunctions;
+    }
+
+    public PanWriting getWritingPanelUserExpressions(){
+        return this.panInputUserMathExpression.getPanWriting();
+    }
+    
+    public PanWriting getwritingPanelModels(){
+        return this.panInputModelExpression.getwritingPanel();
+    }
+    public void setDbFunctions(DBFuntions dbFunctions) {
+        this.dbFunctions = dbFunctions;
+    }
+
+    public void setUpDBFunctionsAndUser(DBFuntions dbFunctions,String usersLoginName){
+        this.dbFunctions=dbFunctions;
+        panDBContent.setDbFunctions(dbFunctions);
+        panDBContent.chargeModelsJList();
+        panInputModelExpression.setDbFunctions(dbFunctions);
+        panInputModelExpression.chargeCategories();
+        panInputUserMathExpression.setDbFunctions(dbFunctions);
+        panInputUserMathExpression.setMyUser(usersLoginName);
+//        panInputUserMathExpression.chargeModel();
+        panInputUserMathExpression.upDateAdvance();
+        this.panDBconfiguration.setDbFunction(dbFunctions);
+        Object[][] categories = getCategories();
+        Object[][] userNickNames = getUserNickNames();
+        this.panDBconfiguration.chargeCategoriesAndUsers(categories,
+                userNickNames);
+    }
+
+    private Object[][] getCategories(){
+        Object[][] data = null;
+        ArrayList<Category> categories = dbFunctions.getCategories();
+        data = new Object[categories.size()][2];
+        int i=0;
+        for (Category category : categories) {
+            data[i][PanDBconfiguration.DATA_COLUMN] = category.getName();
+            data[i][PanDBconfiguration.SELECTION_COLUMN] = new Boolean(true);
+            i++;
+        }
+        return data;
+    }
+
+    private Object[][] getUserNickNames(){
+        Object[][] data = null;
+        ArrayList<User> users = null;
+        try {
+            users = dbFunctions.getAllUsers();
+        } catch (SQLException ex) {
+            Logger.getLogger(AdministratorMainPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        data = new Object[users.size()][2];
+        int i=0;
+        for (User user : users) {
+            data[i][PanDBconfiguration.DATA_COLUMN] = user.getNickName();
+            data[i][PanDBconfiguration.SELECTION_COLUMN] = new Boolean(true);
+            i++;
+        }
+        return data;
+    }
+
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        butGSelectionOfPanelVisualization = new javax.swing.ButtonGroup();
+        jSplitPanelSelector = new javax.swing.JSplitPane();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jTogButAddModelExpression = new javax.swing.JToggleButton();
+        jTogButAddUserExpression = new javax.swing.JToggleButton();
+        jTogButModelsMatching = new javax.swing.JToggleButton();
+        jTogButDatabseConfiguration = new javax.swing.JToggleButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jPanel2 = new javax.swing.JPanel();
+
+        setLayout(new java.awt.BorderLayout());
+
+        jSplitPanelSelector.setDividerLocation(70);
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(70, 521));
+        jPanel1.setLayout(new java.awt.BorderLayout());
+
+        jPanel3.setMinimumSize(new java.awt.Dimension(60, 67));
+        jPanel3.setPreferredSize(new java.awt.Dimension(60, 67));
+        jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 5, 10));
+
+        butGSelectionOfPanelVisualization.add(jTogButAddModelExpression);
+        jTogButAddModelExpression.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/kpovmodeler_doc.png"))); // NOI18N
+        jTogButAddModelExpression.setToolTipText("Input model expressions");
+        jTogButAddModelExpression.setPreferredSize(new java.awt.Dimension(47, 47));
+        jPanel3.add(jTogButAddModelExpression);
+
+        butGSelectionOfPanelVisualization.add(jTogButAddUserExpression);
+        jTogButAddUserExpression.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/sum.png"))); // NOI18N
+        jTogButAddUserExpression.setToolTipText("Input user expressions");
+        jTogButAddUserExpression.setPreferredSize(new java.awt.Dimension(46, 46));
+        jPanel3.add(jTogButAddUserExpression);
+
+        butGSelectionOfPanelVisualization.add(jTogButModelsMatching);
+        jTogButModelsMatching.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/matching.jpg"))); // NOI18N
+        jTogButModelsMatching.setToolTipText("Automatic labelin");
+        jTogButModelsMatching.setFocusable(false);
+        jTogButModelsMatching.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jTogButModelsMatching.setPreferredSize(new java.awt.Dimension(48, 48));
+        jTogButModelsMatching.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jPanel3.add(jTogButModelsMatching);
+
+        butGSelectionOfPanelVisualization.add(jTogButDatabseConfiguration);
+        jTogButDatabseConfiguration.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/database.png"))); // NOI18N
+        jTogButDatabseConfiguration.setToolTipText("Database configuration");
+        jTogButDatabseConfiguration.setFocusable(false);
+        jTogButDatabseConfiguration.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jTogButDatabseConfiguration.setPreferredSize(new java.awt.Dimension(48, 48));
+        jTogButDatabseConfiguration.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jPanel3.add(jTogButDatabseConfiguration);
+
+        jPanel1.add(jPanel3, java.awt.BorderLayout.CENTER);
+
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        jPanel1.add(jSeparator1, java.awt.BorderLayout.EAST);
+
+        jSplitPanelSelector.setLeftComponent(jPanel1);
+
+        org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 319, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 251, Short.MAX_VALUE)
+        );
+
+        jSplitPanelSelector.setRightComponent(jPanel2);
+
+        add(jSplitPanelSelector, java.awt.BorderLayout.CENTER);
+    }// </editor-fold>//GEN-END:initComponents
+
+
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup butGSelectionOfPanelVisualization;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSplitPane jSplitPanelSelector;
+    private javax.swing.JToggleButton jTogButAddModelExpression;
+    private javax.swing.JToggleButton jTogButAddUserExpression;
+    private javax.swing.JToggleButton jTogButDatabseConfiguration;
+    private javax.swing.JToggleButton jTogButModelsMatching;
+    // End of variables declaration//GEN-END:variables
+
+
+    public void showPanelSelector(boolean show){
+        if(show){
+            this.jSplitPanelSelector.setDividerLocation(0);
+        }else{
+            this.jSplitPanelSelector.setDividerLocation(70);
+        }
+    }
+    private class CentralPanelHandler implements ItemListener{
+        public void itemStateChanged(ItemEvent e) {
+            if(e.getSource()==jTogButDatabseConfiguration){
+                if(jTogButDatabseConfiguration.isSelected()){
+                   jSplitPanelSelector.setRightComponent(panDBconfiguration);
+                }
+            
+            }else if(e.getSource()==jTogButModelsMatching){
+                if(jTogButModelsMatching.isSelected()){
+                     jSplitPanelSelector.setRightComponent(panDBContent) ;
+                }
+            }else if(e.getSource()==jTogButAddModelExpression){
+                if(jTogButAddModelExpression.isSelected()){
+                   jSplitPanelSelector.setRightComponent(panInputModelExpression);
+                }
+            
+            }else if(e.getSource()==jTogButAddUserExpression){
+                if(jTogButAddUserExpression.isSelected()){
+                     jSplitPanelSelector.setRightComponent(panInputUserMathExpression) ;
+                }
+            }
+        }
+
+    }
+}

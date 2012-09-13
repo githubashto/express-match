@@ -5,17 +5,14 @@
 package MathExpression.Data;
 
 import Cost.ShapeContext;
-import FeatureExtractor.FETapia;
 import FeatureExtractor.PreprocessingAlgorithms;
 import Graph.Graph;
 import Graph.Vertex;
-import MathExpression.Data.MathExpressionData;
+import Matching.MatchingParameters;
 import MathExpression.Data.DSymbol;
 import MathExpression.Graphics.GMathExpression;
-import TestMatching.AutomaticTest.MatchingParameters;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
-import java.util.LinkedList;
 
 /**
  *
@@ -25,7 +22,7 @@ public class DMathExpression extends MathExpressionData<DSymbol>
                             implements Serializable{
 
     static final long serialVersionUID = 1931329247720475181L;
-    
+
     public Graph toGraph() {
         Graph graph = new Graph();
         int idCount = 0;
@@ -47,7 +44,7 @@ public class DMathExpression extends MathExpressionData<DSymbol>
         ShapeContext sc = new ShapeContext(diagonal, g, MatchingParameters.LogPolarGlobalRegions,
                 MatchingParameters.angularGlobalRegions, true, (GMathExpression) this);
     }
-    
+
     private double[][] calculateShapeContextInside(Point2D[] points) {
         Graph g = new Graph();
         ShapeContext sc;
@@ -81,5 +78,5 @@ public class DMathExpression extends MathExpressionData<DSymbol>
                 rbPoint.setLocation(rbPoint.getX(),p2.getY());
         }
         return this.add(e);
-    }   
+    }
 }

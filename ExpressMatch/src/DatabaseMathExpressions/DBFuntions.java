@@ -64,12 +64,14 @@ public class DBFuntions {
     private PreparedStatement psGetNumExpressionsWrittenByUser;
 
     private PreparedStatement psGetMaxIDUserExpression;
-    
+
     private PreparedStatement getModelbyID;
-    
+
     private PreparedStatement deleteModelByID;
 
     private PreparedStatement psUpdateMathExpressionOfModel;
+
+    private PreparedStatement psUpdateModelExpression;
 
     private final static String url="jdbc:derby://localhost:1527/MathExpressions";
 
@@ -114,16 +116,16 @@ public class DBFuntions {
 
 //          getModelExpressionsByEvaluated=connection.prepareStatement("select MODEL_MATH_EXPRESSION.id, "
 //                  + "MODEL_MATH_EXPRESSION.TEXTUALREPRESENTATIONS, MODEL_MATH_EXPRESSION.MATHEXPRESSION, "+
-//                    "MODEL_MATH_EXPRESSION.CATEGORY from FRANK.MODEL_MATH_EXPRESSION, FRANK.USER_MATH_EXPRESSION where "+  
+//                    "MODEL_MATH_EXPRESSION.CATEGORY from FRANK.MODEL_MATH_EXPRESSION, FRANK.USER_MATH_EXPRESSION where "+
 //                    "FRANK.MODEL_MATH_EXPRESSION.ID = FRANK.USER_MATH_EXPRESSION.IDMODEL and frank.USER_MATH_EXPRESSION.EVALUATED= ? ORDER BY MODEL_MATH_EXPRESSION.id" );
-          
+
           getModelExpressionsByEvaluated=connection.prepareStatement("select "
                   + "MODEL_MATH_EXPRESSION.id, "
                   + "MODEL_MATH_EXPRESSION.TEXTUALREPRESENTATIONS, MODEL_MATH_EXPRESSION.MATHEXPRESSION, "+
                     "MODEL_MATH_EXPRESSION.CATEGORY from frank.MODEL_MATH_EXPRESSION, "
                     +" (select idmodel from frank.USER_MATH_EXPRESSION  where evaluated=?  group by idmodel ) "
                     + "as selectedmodels where selectedmodels.idmodel=frank.MODEL_MATH_EXPRESSION.id" );
-          
+
           psGetModelsForUser=connection.prepareStatement("select * from FRANK.MODEL_MATH_EXPRESSION where"+
             " (select count(FRANK.USER_MATH_EXPRESSION.id)"+
             "from FRANK.USER_MATH_EXPRESSION where FRANK.USER_MATH_EXPRESSION.idUser=? and"+
@@ -139,13 +141,17 @@ public class DBFuntions {
                   + "FRANK.USER_MATH_EXPRESSION where id = ?" );
 
           psGetMaxIDUserExpression=connection.prepareStatement("select max(index) from FRANK.USER_MATH_EXPRESSION where idUser= ?");
-          
+
           getModelbyID=connection.prepareStatement("SELECT * FROM FRANK.MODEL_MATH_EXPRESSION WHERE id=?");
-          
+
           deleteModelByID=connection.prepareStatement("delete FROM FRANK.MODEL_MATH_EXPRESSION WHERE id=?");
-          
+
           psUpdateMathExpressionOfModel=connection.prepareStatement("UPDATE FRANK.MODEL_MATH_EXPRESSION "
                   + "SET mathExpression = ? WHERE id = ?");
+
+          psUpdateModelExpression=connection.prepareStatement("UPDATE FRANK.MODEL_MATH_EXPRESSION "
+                  + "SET mathExpression = ? , category = ? , textualrepresentations = ? "
+                  + "WHERE id = ?");
         }
         catch( Exception e ) {
           e.printStackTrace( );
@@ -160,6 +166,27 @@ public class DBFuntions {
              psUpdateMathExpressionOfModel.setInt(2, id);
              psUpdateMathExpressionOfModel.executeUpdate();
              psUpdateMathExpressionOfModel.clearParameters();
+        } catch (SQLException ex) {
+            Logger.getLogger(DBFuntions.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void updateModelByID(int id, ModelExpression me){
+        DMathExpression mathE=me.getdMathExpression();
+        byte[] bytesMathE;
+        byte[] bytesTextualRepresentation;
+        bytesTextualRepresentation=Util.getBytes(me.getTextualRepresentation());
+        bytesMathE = Util.getBytes(mathE);
+        String category=me.getCategory();
+//        ResultSet resultSet = null;
+//        int generatedKey =-1;
+        try {
+            psUpdateModelExpression.setBytes(1, bytesMathE);
+            psUpdateModelExpression.setString(2,category);
+            psUpdateModelExpression.setBytes(3,bytesTextualRepresentation);
+            psUpdateModelExpression.setInt(4, id);
+            psUpdateModelExpression.executeUpdate();
+            psUpdateModelExpression.clearParameters();
         } catch (SQLException ex) {
             Logger.getLogger(DBFuntions.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -243,7 +270,7 @@ public class DBFuntions {
             Logger.getLogger(DBFuntions.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public ModelExpression getModelByID(int idModel){
         ModelExpression modelExpression=null;
         String category = null;
@@ -269,13 +296,13 @@ public class DBFuntions {
         }
         return modelExpression;
     }
-    
+
     public int getMaxIdUserExpression(String idUser){
         int max=-1;
         try {
             psGetMaxIDUserExpression.setString(1, idUser);
             ResultSet rs=psGetMaxIDUserExpression.executeQuery();
-            
+
             if(rs.next()){
                 max=rs.getInt(1);
             }else{
@@ -300,7 +327,7 @@ public class DBFuntions {
 
     public void deleteUserExpressionByIDUserAndIndex(String idUser,int index){
         try {
-            
+
             PreparedStatement stm = connection.prepareStatement("delete from FRANK.USER_MATH_EXPRESSION "
                     + "where FRANK.USER_MATH_EXPRESSION.idUser = ? and FRANK.USER_MATH_EXPRESSION.index = ?");
             stm.setString(1,idUser);
@@ -330,7 +357,7 @@ public class DBFuntions {
             matching=(int[][])Util.getObject(rs.getBytes("matching"));
              ue=new UserExpression(index,idModel, matching, dme,
                     evaluated, idUser, tm);
-            
+
             psGetUserExpressionByIDUserAndIndex.clearParameters();
         } catch (SQLException ex) {
             Logger.getLogger(DBFuntions.class.getName()).log(Level.SEVERE, null, ex);
@@ -443,7 +470,7 @@ public class DBFuntions {
                     almE.add(modE);
                 }
                 catch (Exception e) {
-                    e.printStackTrace();    
+                    e.printStackTrace();
                 }
             }
             psGetModelsForUser.clearParameters();
@@ -496,7 +523,7 @@ public class DBFuntions {
     /**
      * Gets the models expressions that have evaluated or unevaluated connectionUser expressions
      * @param evaluated
-     * @return 
+     * @return
      */    public ArrayList<ModelExpression> getModelsByEvaluated(boolean evaluated){
         ArrayList<ModelExpression> almE=new  ArrayList<ModelExpression>();
          TextualRepresentation textRep=null;
@@ -507,7 +534,7 @@ public class DBFuntions {
         int cont=0;
          try {
             this.getModelExpressionsByEvaluated.setBoolean(1, evaluated);
-            
+
             ResultSet rs = getModelExpressionsByEvaluated.executeQuery();
             while(rs.next()){
                 try {
@@ -526,7 +553,7 @@ public class DBFuntions {
                     almE.add(modE);
                 //}
                 //lastID=id;
-                        
+
                 }
                 catch (Exception e) {
                     e.printStackTrace();
@@ -607,8 +634,8 @@ public class DBFuntions {
                 addCategory(category.getName(), category.getDescription());
         }
     }
-    
-    public void addModels(ArrayList<ModelExpression> newModelExpressions, 
+
+    public void addModels(ArrayList<ModelExpression> newModelExpressions,
             ArrayList<ExpressionsPerUser> expressionsPerUser){
         int newID = -1;
         int oldID;
@@ -690,7 +717,7 @@ public class DBFuntions {
         }
         return operationResult;
     }
-    
+
 
     public ArrayList<Category> sameCategoryNames(ExportableAndImportableDatabase
             otherDatabase){
@@ -909,35 +936,35 @@ public class DBFuntions {
          return almE;
     }
 
-    public ArrayList<ModelExpression> getAllModelExpressions(){
-     ArrayList<ModelExpression> almE=new  ArrayList<ModelExpression>();
-     TextualRepresentation textRep = null;
-     String category = null;
-     int id=-1;
-    try {
-        ResultSet rs = psGetAllModels.executeQuery();
-        while(rs.next()){
-            try {
-            id=rs.getInt("id");
-            byte[] bytes=rs.getBytes("textualRepresentations");
-            if(bytes!=null){
-                    textRep=(TextualRepresentation) Util.getObject(bytes);
-                }else{
-                    textRep=new TextualRepresentation();
-                }
-            DMathExpression mathE=(DMathExpression)Util.getObject(rs.getBytes("mathExpression"));
-            category=rs.getString("category");
-            ModelExpression modE=new ModelExpression(id, textRep,mathE);
-            modE.setCategory(category);
-            almE.add(modE);
-            } catch (Exception e) {
-            e.printStackTrace();
-            }
-        }
-        psGetAllModels.clearParameters();
-    } catch (SQLException ex) {
-        Logger.getLogger(DBFuntions.class.getName()).log(Level.SEVERE, null, ex);
-    }
-     return almE;
-    }
+//    public ArrayList<ModelExpression> getAllModelExpressions(){
+//     ArrayList<ModelExpression> almE=new  ArrayList<ModelExpression>();
+//     TextualRepresentation textRep = null;
+//     String category = null;
+//     int id=-1;
+//    try {
+//        ResultSet rs = psGetAllModels.executeQuery();
+//        while(rs.next()){
+//            try {
+//            id=rs.getInt("id");
+//            byte[] bytes=rs.getBytes("textualRepresentations");
+//            if(bytes!=null){
+//                    textRep=(TextualRepresentation) Util.getObject(bytes);
+//                }else{
+//                    textRep=new TextualRepresentation();
+//                }
+//            DMathExpression mathE=(DMathExpression)Util.getObject(rs.getBytes("mathExpression"));
+//            category=rs.getString("category");
+//            ModelExpression modE=new ModelExpression(id, textRep,mathE);
+//            modE.setCategory(category);
+//            almE.add(modE);
+//            } catch (Exception e) {
+//            e.printStackTrace();
+//            }
+//        }
+//        psGetAllModels.clearParameters();
+//    } catch (SQLException ex) {
+//        Logger.getLogger(DBFuntions.class.getName()).log(Level.SEVERE, null, ex);
+//    }
+//     return almE;
+//    }
 }

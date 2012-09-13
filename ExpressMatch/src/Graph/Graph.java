@@ -4,8 +4,6 @@
  */
 package Graph;
 
-import Cost.ShapeContext;
-import TestMatching.AutomaticTest.MatchingParameters;
 import java.awt.geom.Point2D;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -63,7 +61,7 @@ public class Graph {
             vertex[i].setShapeContextExpression(sc[i]);
         }
     }
-    
+
     private double[][] calculateShapeContextExpression() {
         float diagonal = (float)Math.sqrt(Math.pow(this.getHeight(), 2)
                     + Math.pow(this.getWidth(), 2));
@@ -71,7 +69,7 @@ public class Graph {
                 MatchingParameters.angularGlobalRegions);
         return sc.getSC();
     }*/
-    
+
     public double getWidth() {
         double minX = 0, maxX = 0;
         Iterator it = this.vertices.iterator();

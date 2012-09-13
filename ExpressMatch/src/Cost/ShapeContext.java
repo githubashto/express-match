@@ -14,8 +14,6 @@ package Cost;
 import Graph.Graph;
 import Graph.Vertex;
 import MathExpression.Graphics.GMathExpression;
-import ShapeContextEvaluation.GUIForShapeContext;
-import java.awt.geom.Point2D;
 import java.util.*;
 
 public class ShapeContext {
@@ -33,7 +31,7 @@ public class ShapeContext {
         return sc;
     }
 
-    public ShapeContext(float raioSC, Graph graph, int tot_r, int tot_t, 
+    public ShapeContext(float raioSC, Graph graph, int tot_r, int tot_t,
             boolean rotation,GMathExpression mathExpression) {
         this.tot_r = tot_r;
         this.tot_t = tot_t;
@@ -60,8 +58,8 @@ public class ShapeContext {
         float[] vr = new float[tot_r];
         for (int i = 0; i < tot_r; i++)
             vr[i] = (float)Math.pow(2.0f,i+1) * multiplica;
-      
-        
+
+
         //bin#1: raio1, ang1; b#2:r2,a1; b#3:r3,a1; b#4:r4,a1; b#5:r5,a1;
         //b#6:r1,a2; ... b#10:r5,a2;
         //b#11: r1, a3; ... b#15: r5, a3;
@@ -134,7 +132,7 @@ se (dy < 0) entao theta:= 2PI - theta
                 if (dy > 0){
                     theta = 2.0f*(float)Math.PI - theta;
                 }
-                
+
                 float raio = modv;
                 //tenho raio e theta, agora localiza 'bin' por angulo e raio
                 int id_r=0, id_t=0;
