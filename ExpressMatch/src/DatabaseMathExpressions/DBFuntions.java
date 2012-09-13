@@ -177,7 +177,7 @@ public class DBFuntions {
         byte[] bytesTextualRepresentation;
         bytesTextualRepresentation=Util.getBytes(me.getTextualRepresentation());
         bytesMathE = Util.getBytes(mathE);
-        String category=me.getCategory();
+        String category=me.getCategoryName();
 //        ResultSet resultSet = null;
 //        int generatedKey =-1;
         try {
@@ -200,6 +200,18 @@ public class DBFuntions {
         } catch (SQLException ex) {
             Logger.getLogger(DBFuntions.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public boolean existCategoryName(String categoryName){
+        boolean existCategoryName = false;
+        ArrayList<Category> categories = getCategories();
+        for (Category category : categories) {
+            if(category.getName().equals(categoryName)){
+                existCategoryName = true;
+                break;
+            }
+        }
+        return existCategoryName;
     }
 
     public ArrayList<Category> getCategories(){
@@ -288,7 +300,7 @@ public class DBFuntions {
                 DMathExpression mathE=(DMathExpression)Util.getObject(resultSet.getBytes("mathExpression"));
                 modelExpression=new ModelExpression(idModel, textRep,mathE);
                 category = resultSet.getString("category");
-                modelExpression.setCategory(category);
+                modelExpression.setCategoryName(category);
             }
             getModelbyID.clearParameters();
         } catch (SQLException ex) {
@@ -433,14 +445,14 @@ public class DBFuntions {
         ArrayList<ModelExpression> models=getModelsForUser(idUser);
         if(!models.isEmpty()){
             Random random=new Random();
-//            int randomPosition=random.nextInt(models.size());
-//            model=models.get(randomPosition);
-            for (int i = 0; i < models.size(); i++) {
-                if(models.get(i).getId()==70){
-                    model=models.get(i);
-                    break;
-                }
-            }
+            int randomPosition=random.nextInt(models.size());
+            model=models.get(randomPosition);
+//            for (int i = 0; i < models.size(); i++) {
+//                if(models.get(i).getId()==70){
+//                    model=models.get(i);
+//                    break;
+//                }
+//            }
         }
         return model;
     }
@@ -882,7 +894,7 @@ public class DBFuntions {
         byte[] bytesTextualRepresentation;
         bytesTextualRepresentation=Util.getBytes(me.getTextualRepresentation());
         bytesMathE = Util.getBytes(mathE);
-        String category=me.getCategory();
+        String category=me.getCategoryName();
         ResultSet resultSet = null;
         int generatedKey =-1;
         try {
@@ -922,7 +934,7 @@ public class DBFuntions {
                     DMathExpression mathE=(DMathExpression)Util.getObject(rs.getBytes("mathExpression"));
                     category=rs.getString("category");
                     ModelExpression modE=new ModelExpression(id, textRep,mathE);
-                    modE.setCategory(category);
+                    modE.setCategoryName(category);
                     almE.add(modE);
                 }
                 catch (Exception e) {
@@ -955,7 +967,7 @@ public class DBFuntions {
 //            DMathExpression mathE=(DMathExpression)Util.getObject(rs.getBytes("mathExpression"));
 //            category=rs.getString("category");
 //            ModelExpression modE=new ModelExpression(id, textRep,mathE);
-//            modE.setCategory(category);
+//            modE.setCategoryName(category);
 //            almE.add(modE);
 //            } catch (Exception e) {
 //            e.printStackTrace();

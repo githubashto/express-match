@@ -109,7 +109,7 @@ public class Exporter {
                     String.valueOf(model.getId()),
                     nickName,dmathUserExpression);
                 instanceME.setTextualRepresentation(model.getTextualRepresentation());
-                instanceME.setCategory(model.getCategory());
+                instanceME.setCategory(model.getCategoryName());
                 samples.add(instanceME);
             }
         }
@@ -124,7 +124,7 @@ public class Exporter {
             MathExpressionSample me=new MathExpressionSample(
                     String.valueOf(modelExpression.getId()),
                     "user0",dmathModel);
-            me.setCategory(modelExpression.getCategory());
+            me.setCategory(modelExpression.getCategoryName());
             me.setTextualRepresentation(modelExpression.getTextualRepresentation());
             me.setID(modelExpression.getId());
             samples.add(me);

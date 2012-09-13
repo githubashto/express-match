@@ -17,6 +17,7 @@ import br.usp.ime.faguilar.guis.Util.MyTableModel;
 import MathExpression.Data.DMathExpression;
 import MathExpression.Graphics.GMathExpression;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -73,7 +74,7 @@ implements ListSelectionListener{
         int i=0;
         for (ModelExpression model : modelExpressions) {
             modelID=model.getId();
-            categoria=model.getCategory();
+            categoria=model.getCategoryName();
             textualRepresentation=model.getTextualRepresentation();
             Object[] obj={modelID,categoria};
             data[i]=obj;
@@ -143,7 +144,7 @@ implements ListSelectionListener{
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 337, Short.MAX_VALUE)
+            .addGap(0, 286, Short.MAX_VALUE)
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,9 +183,9 @@ implements ListSelectionListener{
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                .addContainerGap(684, Short.MAX_VALUE)
+                .addContainerGap(672, Short.MAX_VALUE)
                 .addComponent(save)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(delete)
                 .addGap(9, 9, 9))
         );
@@ -212,15 +213,18 @@ implements ListSelectionListener{
     private void saveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveActionPerformed
         // TODO add your handling code here:
         if(selectedModel!=null){
-            int idModel=selectedModel.getId();
-            selectedModel.setdMathExpression(panShowModel.getPanWriting().getgMathExpressionWritten());
-//            DMathExpression mathExpression=(DMathExpression) selectedModel.getdMathExpression().clone();
-            selectedModel.setTextualRepresentation(expressionLevelGroundTruth.getGroundTruth());
             int selectedRow = modelsTable.getSelectedRow();
-             Object categoryName=this.modelsTable.getModel().getValueAt(selectedRow,CATEGORY_COLUMN);
-            selectedModel.setCategory( (String) categoryName);
-//            databaseFunctions.updateMathExpressionOfModel(idModel, mathExpression);
-            databaseFunctions.updateModelByID(idModel, selectedModel);
+            Object categoryName=this.modelsTable.getModel().getValueAt(selectedRow,CATEGORY_COLUMN);
+            if(databaseFunctions.existCategoryName((String) categoryName)){
+                int idModel=selectedModel.getId();
+                selectedModel.setdMathExpression(panShowModel.getPanWriting().getgMathExpressionWritten());
+                selectedModel.setTextualRepresentation(expressionLevelGroundTruth.getGroundTruth());
+                selectedModel.setCategoryName( (String) categoryName);
+                databaseFunctions.updateModelByID(idModel, selectedModel);
+            }else{
+                JOptionPane.showMessageDialog(null,"Invalid Category name", "Category name Error",
+                        JOptionPane.ERROR_MESSAGE);
+            }
         }
     }//GEN-LAST:event_saveActionPerformed
 

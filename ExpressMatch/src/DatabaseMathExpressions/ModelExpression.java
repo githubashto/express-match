@@ -35,7 +35,7 @@ public class ModelExpression
 
     private DMathExpression dMathExpression;
     
-    private String category;
+    private String categoryName;
 
     public ModelExpression(int id, TextualRepresentation textualRepresentation,
             DMathExpression dMathExpression) {
@@ -44,12 +44,12 @@ public class ModelExpression
         this.dMathExpression = dMathExpression;
     }
 
-    public String getCategory() {
-        return category;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategoryName(String category) {
+        this.categoryName = category;
     }
     
     public ModelExpression(int id) {

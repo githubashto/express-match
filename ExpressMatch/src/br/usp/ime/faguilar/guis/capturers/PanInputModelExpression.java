@@ -181,7 +181,7 @@ public class PanInputModelExpression extends javax.swing.JPanel {
         me.setTextualRepresentation(expressionLevelGroundTruth.getGroundTruth());
         me.setdMathExpression((DMathExpression) this.panControlInputMathExpressions1.getGMathExpression().clone());
         String category=categories.get(jComboBox1.getSelectedIndex()).getName();
-        me.setCategory(category);
+        me.setCategoryName(category);
         Point2D pLocation=panControlInputMathExpressions1.getPanWriting().getLocationOnScreen();
         GMathExpression gme=panControlInputMathExpressions1.getGMathExpression();
         pLocation.setLocation(pLocation.getX()+gme.getLtPoint().getX()-2,
