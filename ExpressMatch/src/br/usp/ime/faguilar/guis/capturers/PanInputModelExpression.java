@@ -14,7 +14,7 @@ package br.usp.ime.faguilar.guis.capturers;
 import DatabaseMathExpressions.Category;
 import DatabaseMathExpressions.DBFuntions;
 import DatabaseMathExpressions.ModelExpression;
-import DatabaseMathExpressions.TextualRepresentation;
+import DatabaseMathExpressions.ModelExpressionGroundTruth;
 import br.usp.ime.faguilar.guis.MathExpressionDrawing.Panels.PanWriting;
 import br.usp.ime.faguilar.guis.PanLabeling;
 import br.usp.ime.faguilar.guis.PanModelExpressions;
@@ -23,13 +23,9 @@ import MathExpression.Graphics.GMathExpression;
 import java.awt.Component;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.List;
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
-import org.jdesktop.beansbinding.Binding;
 
 /**
  *
@@ -43,14 +39,14 @@ public class PanInputModelExpression extends javax.swing.JPanel {
 
     private DBFuntions dbFunctions;
     
-    private TextualRepresentation textualRepresentations;
+    private ModelExpressionGroundTruth textualRepresentations;
 
     private ArrayList<Category> categories;
 
     /** Creates new form PanInputModelExpression */
     public PanInputModelExpression() {
         initComponents();
-        textualRepresentations=new TextualRepresentation();
+        textualRepresentations=new ModelExpressionGroundTruth();
     }
 
     /** This method is called from within the constructor to
@@ -67,7 +63,7 @@ public class PanInputModelExpression extends javax.swing.JPanel {
         jComboBox1 = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         newCategory = new javax.swing.JButton();
-        expressionLevelGroundTruth = new br.usp.ime.faguilar.guis.ExpressionLevelGroundTruth();
+        expressionLevelGroundTruth = new br.usp.ime.faguilar.guis.ModelExpressionGroundTruthEditor();
         jPanel2 = new javax.swing.JPanel();
         butSaveModel = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
@@ -256,7 +252,7 @@ public class PanInputModelExpression extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AllModelsButton;
     private javax.swing.JButton butSaveModel;
-    private br.usp.ime.faguilar.guis.ExpressionLevelGroundTruth expressionLevelGroundTruth;
+    private br.usp.ime.faguilar.guis.ModelExpressionGroundTruthEditor expressionLevelGroundTruth;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;

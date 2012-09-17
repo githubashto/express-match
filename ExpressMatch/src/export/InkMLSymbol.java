@@ -5,7 +5,7 @@
 
 package export;
 
-import DatabaseMathExpressions.TextualRepresentation;
+import DatabaseMathExpressions.ModelExpressionGroundTruth;
 import MathExpression.Data.DStroke;
 import MathExpression.Data.DSymbol;
 import MathExpression.Data.TimePoint;

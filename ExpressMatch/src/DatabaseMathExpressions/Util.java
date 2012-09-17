@@ -14,15 +14,15 @@ import java.util.ArrayList;
  */
 public class Util {
 
-    public static void initializeGroundTruth(){
-        DBFuntions database = new DBFuntions();
-        database.openConnection();
-        ArrayList<ModelExpression> allModelExpressions = database.getModelExpressions();
-        for (ModelExpression modelExpression : allModelExpressions) {
-            TextualRepresentation newGroundTruth = new TextualRepresentation();
-            newGroundTruth.add("");
-            modelExpression.setTextualRepresentation(newGroundTruth);
-            database.updateModelByID(modelExpression.getId(), modelExpression);
-        }
-    }
+//    public static void initializeGroundTruth(){
+//        DBFuntions database = new DBFuntions();
+//        database.openConnection();
+//        ArrayList<ModelExpression> allModelExpressions = database.getModelExpressions();
+//        for (ModelExpression modelExpression : allModelExpressions) {
+//            ModelExpressionGroundTruth newGroundTruth = new ModelExpressionGroundTruth();
+//            newGroundTruth.add("");
+//            modelExpression.setTextualRepresentation(newGroundTruth);
+//            database.updateModelByID(modelExpression.getId(), modelExpression);
+//        }
+//    }
 }

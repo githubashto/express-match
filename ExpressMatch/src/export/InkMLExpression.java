@@ -5,7 +5,8 @@
 
 package export;
 
-import DatabaseMathExpressions.TextualRepresentation;
+import DatabaseMathExpressions.ExpressionLevelGroundTruth;
+import DatabaseMathExpressions.ModelExpressionGroundTruth;
 import DatabaseMathExpressions.UserExpression;
 import MathExpression.Data.DStroke;
 import MathExpression.Data.DSymbol;
@@ -23,7 +24,7 @@ public class InkMLExpression {
 //    private String Category;
     private MathExpressionSample sampleExpression;
 //    private ArrayList<String> groundTruthExpression;
-    private TextualRepresentation groundTruthExpression;
+    private ModelExpressionGroundTruth groundTruthExpression;
 
     private String inkmlText;
 
@@ -80,18 +81,26 @@ public class InkMLExpression {
 
     private void generateGroundTruthExpression(){
         String[] lines = null;
-        for (String groundTruth : groundTruthExpression) {
-            inkmlText += "<annotationXML type=\"truth\" "
-                + "encoding=\"Content-MathML\">"+JUMP_LINE;
-            inkmlText += TAB + "<math xmlns='http://www.w3.org/1998/Math/MathML'>"
-                            + JUMP_LINE;
-            lines = groundTruth.split(JUMP_LINE);
-            for (int i = 0; i < lines.length; i++) //{
-                inkmlText += TAB + TAB+ lines[i] + JUMP_LINE;
-//            }
-//            inkmlText += groundTruth;
-            inkmlText += TAB+"</math>"+JUMP_LINE;
-            inkmlText += "</annotationXML>"+JUMP_LINE;
+        for (ExpressionLevelGroundTruth expressionGroundTruth : groundTruthExpression) {
+            if(expressionGroundTruth.isContentMathML()){
+                inkmlText += "<annotationXML type=\"truth\" "
+                    + "encoding=\"Content-MathML\">"+JUMP_LINE;
+//                inkmlText += TAB + "<math xmlns='http://www.w3.org/1998/Math/MathML'>"
+//                                + JUMP_LINE;
+                String stringGroundTruth = expressionGroundTruth.getGroundTruth();
+                lines = stringGroundTruth.split(JUMP_LINE);
+                for (int i = 0; i < lines.length; i++) //{
+                    inkmlText += TAB+ lines[i] + JUMP_LINE;
+    //            }
+    //            inkmlText += groundTruth;
+//                inkmlText += TAB+"</math>"+JUMP_LINE;
+                inkmlText += "</annotationXML>"+JUMP_LINE;
+            }
+             else{
+                inkmlText += "<annotation type=\"truth\">" + 
+                        expressionGroundTruth.getGroundTruth() + "</annotation>"
+                        + JUMP_LINE;
+             }
         }
     }
 
@@ -168,11 +177,11 @@ public class InkMLExpression {
 //        this.userExpression = userExpression;
 //    }
 
-    public ArrayList<String> getGroundTruthExpression() {
+    public ModelExpressionGroundTruth getGroundTruthExpression() {
         return groundTruthExpression;
     }
 
-    public void setGroundTruthExpression(TextualRepresentation groundTruthExpression) {
+    public void setGroundTruthExpression(ModelExpressionGroundTruth groundTruthExpression) {
         this.groundTruthExpression = groundTruthExpression;
     }
 

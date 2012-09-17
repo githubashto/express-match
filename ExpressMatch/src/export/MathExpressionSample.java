@@ -5,7 +5,7 @@
 
 package export;
 
-import DatabaseMathExpressions.TextualRepresentation;
+import DatabaseMathExpressions.ModelExpressionGroundTruth;
 import MathExpression.Data.DMathExpression;
 
 /**
@@ -17,7 +17,7 @@ public class MathExpressionSample implements Comparable{
     private String writer;
     private String category;
     private DMathExpression mathExpression;
-    private TextualRepresentation textualRepresentation;
+    private ModelExpressionGroundTruth textualRepresentation;
     private int ID;
     
     public MathExpressionSample(String model, String user, DMathExpression expression) {
@@ -74,11 +74,11 @@ public class MathExpressionSample implements Comparable{
         this.writer = writer;
     }
 
-    public TextualRepresentation getTextualRepresentation() {
+    public ModelExpressionGroundTruth getTextualRepresentation() {
         return textualRepresentation;
     }
 
-    public void setTextualRepresentation(TextualRepresentation textualRepresentation) {
+    public void setTextualRepresentation(ModelExpressionGroundTruth textualRepresentation) {
         this.textualRepresentation = textualRepresentation;
     }
 

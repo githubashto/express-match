@@ -286,16 +286,16 @@ public class DBFuntions {
     public ModelExpression getModelByID(int idModel){
         ModelExpression modelExpression=null;
         String category = null;
-        TextualRepresentation textRep;
+        ModelExpressionGroundTruth textRep;
         try {
             getModelbyID.setInt(1, idModel);
             ResultSet resultSet=getModelbyID.executeQuery();
             if(resultSet.next()){
                 byte[] bytes=resultSet.getBytes("textualRepresentations");
                     if(bytes!=null){
-                        textRep=(TextualRepresentation) Util.getObject(bytes);
+                        textRep=(ModelExpressionGroundTruth) Util.getObject(bytes);
                     }else{
-                        textRep=new TextualRepresentation();
+                        textRep=new ModelExpressionGroundTruth();
                     }
                 DMathExpression mathE=(DMathExpression)Util.getObject(resultSet.getBytes("mathExpression"));
                 modelExpression=new ModelExpression(idModel, textRep,mathE);
@@ -460,7 +460,7 @@ public class DBFuntions {
         Integer numExpressionsPerModel=(Integer) getValueDBConfiguration("numExprPerModel",
                 "intValueOfProperty");
         ArrayList<ModelExpression> almE=new  ArrayList<ModelExpression>();
-         TextualRepresentation textRep=null;
+         ModelExpressionGroundTruth textRep=null;
          int id=-1;
         try {
             psGetModelsForUser.setString(1,idUser);
@@ -472,9 +472,9 @@ public class DBFuntions {
                     id=rs.getInt("id");
                     byte[] bytes=rs.getBytes("textualRepresentations");
                     if(bytes!=null){
-                        textRep=(TextualRepresentation) Util.getObject(bytes);
+                        textRep=(ModelExpressionGroundTruth) Util.getObject(bytes);
                     }else{
-                        textRep=new TextualRepresentation();
+                        textRep=new ModelExpressionGroundTruth();
                     }
                     DMathExpression mathE=(DMathExpression)Util.getObject(rs.getBytes("mathExpression"));
 
@@ -538,7 +538,7 @@ public class DBFuntions {
      * @return
      */    public ArrayList<ModelExpression> getModelsByEvaluated(boolean evaluated){
         ArrayList<ModelExpression> almE=new  ArrayList<ModelExpression>();
-         TextualRepresentation textRep=null;
+         ModelExpressionGroundTruth textRep=null;
          int id=-1,lastID=-1;
 
 //        Integer numExpressionsPerModel=(Integer) getValueDBConfiguration("numExprPerModel",
@@ -556,9 +556,9 @@ public class DBFuntions {
                 //if(id!=lastID){//to select just one model (the first. Java db didnt allowed to use distinct keyword in getModelExpressionsByEvaluated prepared statement )
                     byte[] bytes=rs.getBytes("textualRepresentations");
                     if(bytes!=null){
-                        textRep=(TextualRepresentation) Util.getObject(bytes);
+                        textRep=(ModelExpressionGroundTruth) Util.getObject(bytes);
                     }else{
-                        textRep=new TextualRepresentation();
+                        textRep=new ModelExpressionGroundTruth();
                     }
                     DMathExpression mathE=(DMathExpression)Util.getObject(rs.getBytes("mathExpression"));
                     ModelExpression modE=new ModelExpression(id, textRep,mathE);
@@ -892,7 +892,7 @@ public class DBFuntions {
         DMathExpression mathE=me.getdMathExpression();
         byte[] bytesMathE;
         byte[] bytesTextualRepresentation;
-        bytesTextualRepresentation=Util.getBytes(me.getTextualRepresentation());
+        bytesTextualRepresentation = Util.getBytes(me.getTextualRepresentation());
         bytesMathE = Util.getBytes(mathE);
         String category=me.getCategoryName();
         ResultSet resultSet = null;
@@ -917,7 +917,7 @@ public class DBFuntions {
 
     public ArrayList<ModelExpression> getModelExpressions(){
          ArrayList<ModelExpression> almE=new  ArrayList<ModelExpression>();
-         TextualRepresentation textRep=null;
+         ModelExpressionGroundTruth textRep=null;
          String category=null;
          int id=-1;
         try {
@@ -927,9 +927,9 @@ public class DBFuntions {
                     id=rs.getInt("id");
                     byte[] bytes=rs.getBytes("textualRepresentations");
                     if(bytes!=null){
-                            textRep=(TextualRepresentation) Util.getObject(bytes);
+                            textRep=(ModelExpressionGroundTruth) Util.getObject(bytes);
                         }else{
-                            textRep=new TextualRepresentation();
+                            textRep=new ModelExpressionGroundTruth();
                         }
                     DMathExpression mathE=(DMathExpression)Util.getObject(rs.getBytes("mathExpression"));
                     category=rs.getString("category");
@@ -950,7 +950,7 @@ public class DBFuntions {
 
 //    public ArrayList<ModelExpression> getAllModelExpressions(){
 //     ArrayList<ModelExpression> almE=new  ArrayList<ModelExpression>();
-//     TextualRepresentation textRep = null;
+//     ModelExpressionGroundTruth textRep = null;
 //     String category = null;
 //     int id=-1;
 //    try {
@@ -960,9 +960,9 @@ public class DBFuntions {
 //            id=rs.getInt("id");
 //            byte[] bytes=rs.getBytes("textualRepresentations");
 //            if(bytes!=null){
-//                    textRep=(TextualRepresentation) Util.getObject(bytes);
+//                    textRep=(ModelExpressionGroundTruth) Util.getObject(bytes);
 //                }else{
-//                    textRep=new TextualRepresentation();
+//                    textRep=new ModelExpressionGroundTruth();
 //                }
 //            DMathExpression mathE=(DMathExpression)Util.getObject(rs.getBytes("mathExpression"));
 //            category=rs.getString("category");

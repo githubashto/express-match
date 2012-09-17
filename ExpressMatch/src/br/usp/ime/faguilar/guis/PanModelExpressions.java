@@ -12,7 +12,7 @@ package br.usp.ime.faguilar.guis;
 
 import DatabaseMathExpressions.DBFuntions;
 import DatabaseMathExpressions.ModelExpression;
-import DatabaseMathExpressions.TextualRepresentation;
+import DatabaseMathExpressions.ModelExpressionGroundTruth;
 import br.usp.ime.faguilar.guis.Util.MyTableModel;
 import MathExpression.Data.DMathExpression;
 import MathExpression.Graphics.GMathExpression;
@@ -70,7 +70,7 @@ implements ListSelectionListener{
         Object[][] data=new Object[modelExpressions.size()][columnNames.length];
         Integer modelID;
         String categoria=null;
-        TextualRepresentation textualRepresentation;
+        ModelExpressionGroundTruth textualRepresentation;
         int i=0;
         for (ModelExpression model : modelExpressions) {
             modelID=model.getId();
@@ -97,7 +97,7 @@ implements ListSelectionListener{
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         modelsTable = new javax.swing.JTable();
-        expressionLevelGroundTruth = new br.usp.ime.faguilar.guis.ExpressionLevelGroundTruth();
+        expressionLevelGroundTruth = new br.usp.ime.faguilar.guis.ModelExpressionGroundTruthEditor();
         jPanel6 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         panShowModel = new br.usp.ime.faguilar.guis.capturers.PanControlInputMathExpressions();
@@ -230,7 +230,7 @@ implements ListSelectionListener{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton delete;
-    private br.usp.ime.faguilar.guis.ExpressionLevelGroundTruth expressionLevelGroundTruth;
+    private br.usp.ime.faguilar.guis.ModelExpressionGroundTruthEditor expressionLevelGroundTruth;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

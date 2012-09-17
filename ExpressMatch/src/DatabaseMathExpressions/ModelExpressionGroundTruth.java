@@ -11,14 +11,14 @@ import java.util.ArrayList;
  *
  * @author frank.aguilar
  */
-public class TextualRepresentation extends ArrayList<String> 
+public class ModelExpressionGroundTruth extends ArrayList<ExpressionLevelGroundTruth>
 implements Serializable{
 
     @Override
     public String toString() {
         String string="";
         int textualIndex=1;
-        for (String representation:this) {
+        for (ExpressionLevelGroundTruth representation:this) {
             string+=(textualIndex+". "+representation);
             textualIndex++;
         }

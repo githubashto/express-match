@@ -6,7 +6,6 @@
 package DatabaseMathExpressions;
 
 import MathExpression.Data.DMathExpression;
-import MathExpression.Graphics.GMathExpression;
 import java.awt.Image;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,6 +18,7 @@ import javax.swing.ImageIcon;
 public class ModelExpression 
     implements Serializable{
 
+    private static final long serialVersionUID = 1L;
     //private int idDatabase;
 
     /**
@@ -29,7 +29,7 @@ public class ModelExpression
     /**
      * Textual representation of this model
      */
-    private TextualRepresentation textualRepresentation;
+    private ModelExpressionGroundTruth textualRepresentation;
 
     private ArrayList<UserExpression> alUserExpression;
 
@@ -37,7 +37,7 @@ public class ModelExpression
     
     private String categoryName;
 
-    public ModelExpression(int id, TextualRepresentation textualRepresentation,
+    public ModelExpression(int id, ModelExpressionGroundTruth textualRepresentation,
             DMathExpression dMathExpression) {
         this.id = id;
         this.textualRepresentation = textualRepresentation;
@@ -73,11 +73,11 @@ public class ModelExpression
         this.id = id;
     }
 
-    public TextualRepresentation getTextualRepresentation() {
+    public ModelExpressionGroundTruth getTextualRepresentation() {
         return textualRepresentation;
     }
 
-    public void setTextualRepresentation(TextualRepresentation textualRepresentation) {
+    public void setTextualRepresentation(ModelExpressionGroundTruth textualRepresentation) {
         this.textualRepresentation = textualRepresentation;
     }
 

@@ -6,7 +6,7 @@
 package MAIN;
 
 import DatabaseMathExpressions.Util;
-import br.usp.ime.faguilar.guis.ExpressionLevelGroundTruth;
+import br.usp.ime.faguilar.guis.ModelExpressionGroundTruthEditor;
 import br.usp.ime.faguilar.guis.WellComeToSystem.PanWelcome;
 import java.util.ArrayList;
 import javax.swing.JFrame;
@@ -50,7 +50,7 @@ public class Main {
 
 //    public static void testGroundTurhFrame(){
 //        JFrame mainFrame=new JFrame("test");
-//        ExpressionLevelGroundTruth panWelcome=new ExpressionLevelGroundTruth();
+//        ModelExpressionGroundTruthEditor panWelcome=new ModelExpressionGroundTruthEditor();
 ////        panWelcome.setContainerFrame(mainFrame);
 //        mainFrame.setContentPane(panWelcome);
 //        mainFrame.pack();

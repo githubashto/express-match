@@ -4,26 +4,27 @@
  */
 
 /*
- * ExpressionLevelGroundTruth.java
+ * ModelExpressionGroundTruthEditor.java
  *
  * Created on Sep 10, 2012, 2:25:39 PM
  */
 
 package br.usp.ime.faguilar.guis;
 
-import DatabaseMathExpressions.TextualRepresentation;
+import DatabaseMathExpressions.ExpressionLevelGroundTruth;
+import DatabaseMathExpressions.ModelExpressionGroundTruth;
 
 /**
  *
  * @author frank
  */
-public class ExpressionLevelGroundTruth extends javax.swing.JPanel {
-    private TextualRepresentation groundTruth;
+public class ModelExpressionGroundTruthEditor extends javax.swing.JPanel {
+    private ModelExpressionGroundTruth groundTruth;
     private int selectedIndex;
     private static final int DEFAUL_INDEX = 0;
 
-    /** Creates new form ExpressionLevelGroundTruth */
-    public ExpressionLevelGroundTruth() {
+    /** Creates new form ModelExpressionGroundTruthEditor */
+    public ModelExpressionGroundTruthEditor() {
         initComponents();
         initializeCustomFields();
     }
@@ -40,9 +41,12 @@ public class ExpressionLevelGroundTruth extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         textArea = new javax.swing.JTextArea();
         jPanel1 = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        isContentMathMLCheckBox = new javax.swing.JCheckBox();
+        jPanel3 = new javax.swing.JPanel();
+        deleteElement = new javax.swing.JButton();
         previousElement = new javax.swing.JButton();
         nextelement = new javax.swing.JButton();
-        deleteElement = new javax.swing.JButton();
         newElement = new javax.swing.JButton();
 
         setLayout(new java.awt.BorderLayout());
@@ -58,21 +62,29 @@ public class ExpressionLevelGroundTruth extends javax.swing.JPanel {
 
         add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
-        previousElement.setText("<");
-        previousElement.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                previousElementMouseClicked(evt);
-            }
-        });
-        jPanel1.add(previousElement);
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
-        nextelement.setText(">");
-        nextelement.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                nextelementMouseClicked(evt);
+        isContentMathMLCheckBox.setText("Is Content MathML ");
+        isContentMathMLCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                isContentMathMLCheckBoxStateChanged(evt);
             }
         });
-        jPanel1.add(nextelement);
+
+        org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel2Layout.createSequentialGroup()
+                .add(isContentMathMLCheckBox)
+                .addContainerGap(174, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(isContentMathMLCheckBox)
+        );
+
+        jPanel1.add(jPanel2, java.awt.BorderLayout.NORTH);
 
         deleteElement.setText("-");
         deleteElement.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -80,7 +92,23 @@ public class ExpressionLevelGroundTruth extends javax.swing.JPanel {
                 deleteElementMouseClicked(evt);
             }
         });
-        jPanel1.add(deleteElement);
+        jPanel3.add(deleteElement);
+
+        previousElement.setText("<");
+        previousElement.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                previousElementMouseClicked(evt);
+            }
+        });
+        jPanel3.add(previousElement);
+
+        nextelement.setText(">");
+        nextelement.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                nextelementMouseClicked(evt);
+            }
+        });
+        jPanel3.add(nextelement);
 
         newElement.setText("+");
         newElement.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -88,7 +116,9 @@ public class ExpressionLevelGroundTruth extends javax.swing.JPanel {
                 newElementMouseClicked(evt);
             }
         });
-        jPanel1.add(newElement);
+        jPanel3.add(newElement);
+
+        jPanel1.add(jPanel3, java.awt.BorderLayout.CENTER);
 
         add(jPanel1, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
@@ -96,20 +126,21 @@ public class ExpressionLevelGroundTruth extends javax.swing.JPanel {
     private void previousElementMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previousElementMouseClicked
         // TODO add your handling code here:
         if(isValidIndex(getSelectedIndex() - 1)){
-            setTextToAreaAndSelectedIndex(getSelectedIndex() - 1);
+            updateSelectedIndex(getSelectedIndex() - 1);
         }
     }//GEN-LAST:event_previousElementMouseClicked
 
     private void nextelementMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nextelementMouseClicked
         // TODO add your handling code here:
         if(isValidIndex(getSelectedIndex() + 1)){
-            setTextToAreaAndSelectedIndex(getSelectedIndex() + 1);
+            updateSelectedIndex(getSelectedIndex() + 1);
         }
     }//GEN-LAST:event_nextelementMouseClicked
 
-    private void setTextToAreaAndSelectedIndex(int index){
+    private void updateSelectedIndex(int index){
         setSelectedIndex(index);
-        textArea.setText(getGroundTruth().get(getSelectedIndex()));
+        textArea.setText(getGroundTruth().get(getSelectedIndex()).getGroundTruth());
+        isContentMathMLCheckBox.setSelected(getGroundTruth().get(getSelectedIndex()).isContentMathML());
     }
 
 
@@ -125,8 +156,25 @@ public class ExpressionLevelGroundTruth extends javax.swing.JPanel {
 
     private void textAreaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textAreaKeyReleased
         // TODO add your handling code here:
-        groundTruth.set(getSelectedIndex(), textArea.getText());
+
+//        groundTruth.set(getSelectedIndex(), getExpressionLevelGrounTruth());
+        groundTruth.get(getSelectedIndex()).setGroundTruth(textArea.getText());
     }//GEN-LAST:event_textAreaKeyReleased
+
+    private void isContentMathMLCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_isContentMathMLCheckBoxStateChanged
+        // TODO add your handling code here:
+        boolean isContentMathML = isContentMathMLCheckBox.isSelected();
+        groundTruth.get(getSelectedIndex()).setContentMathML(isContentMathML);
+    }//GEN-LAST:event_isContentMathMLCheckBoxStateChanged
+
+//    private ExpressionLevelGroundTruth getExpressionLevelGrounTruth(){
+//        boolean isContentMathML = jCheckBox1.isSelected();
+//        String groundTruth = textArea.getText();
+//        ExpressionLevelGroundTruth expressionLevelGroundTruth =  new ExpressionLevelGroundTruth();
+//        expressionLevelGroundTruth.setContentMathML(isContentMathML);
+//        expressionLevelGroundTruth.setGroundTruth(groundTruth);
+//        return expressionLevelGroundTruth;
+//    }
 
     private void deleteCurrentGroundTruthElement(){
         if(!groundTruth.isEmpty()){
@@ -135,9 +183,9 @@ public class ExpressionLevelGroundTruth extends javax.swing.JPanel {
                 addNewGroundTruth();
             }else{
                 if(getSelectedIndex() < getGroundTruth().size())
-                    setTextToAreaAndSelectedIndex(getSelectedIndex());
+                    updateSelectedIndex(getSelectedIndex());
                 else
-                    setTextToAreaAndSelectedIndex(getSelectedIndex()-1);
+                    updateSelectedIndex(getSelectedIndex()-1);
             }
         }
     }
@@ -149,9 +197,10 @@ public class ExpressionLevelGroundTruth extends javax.swing.JPanel {
     }
 
     private void addNewGroundTruth(){
-        groundTruth.add("");
+        groundTruth.add(new ExpressionLevelGroundTruth());
         selectedIndex = groundTruth.size()-1;
         textArea.setText("");
+        isContentMathMLCheckBox.setSelected(groundTruth.get(selectedIndex).isContentMathML());
     }
 
     public int getSelectedIndex() {
@@ -166,7 +215,10 @@ public class ExpressionLevelGroundTruth extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton deleteElement;
+    private javax.swing.JCheckBox isContentMathMLCheckBox;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton newElement;
     private javax.swing.JButton nextelement;
@@ -176,19 +228,19 @@ public class ExpressionLevelGroundTruth extends javax.swing.JPanel {
 
 
     public void initializeCustomFields(){
-        setGroundTruth(new TextualRepresentation());
+        setGroundTruth(new ModelExpressionGroundTruth());
         addNewGroundTruth();
 //        setSelectedIndex(INDEX_FOR_EMPTY_GROUND_TRUTH);
     }
 
-    public TextualRepresentation getGroundTruth() {
+    public ModelExpressionGroundTruth getGroundTruth() {
         return groundTruth;
     }
 
-    public void setGroundTruth(TextualRepresentation goundTruth) {
+    public void setGroundTruth(ModelExpressionGroundTruth goundTruth) {
         this.groundTruth = goundTruth;
         if(!goundTruth.isEmpty()){
-            textArea.setText(goundTruth.get(DEFAUL_INDEX));
+            textArea.setText(goundTruth.get(DEFAUL_INDEX).getGroundTruth());
             selectedIndex = DEFAUL_INDEX;
         }
     }

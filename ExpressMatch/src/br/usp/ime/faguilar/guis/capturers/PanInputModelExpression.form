@@ -43,7 +43,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="newCategory" min="-2" pref="44" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="expressionLevelGroundTruth" alignment="0" pref="747" max="32767" attributes="0"/>
+                      <Component id="expressionLevelGroundTruth" alignment="0" pref="744" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -86,7 +86,7 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="newCategoryActionPerformed"/>
           </Events>
         </Component>
-        <Component class="br.usp.ime.faguilar.guis.ExpressionLevelGroundTruth" name="expressionLevelGroundTruth">
+        <Component class="br.usp.ime.faguilar.guis.ModelExpressionGroundTruthEditor" name="expressionLevelGroundTruth">
           <Properties>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
