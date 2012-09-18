@@ -17,7 +17,7 @@ import DatabaseMathExpressions.UserExpression;
 import MathExpression.Graphics.GMathExpression;
 import Util.Scale;
 import Util.Util;
-import br.usp.ime.faguilar.guis.matching2.PanMatching;
+import br.usp.ime.faguilar.guis.matching.PanMatching;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -134,7 +134,7 @@ public class PanLabeling extends javax.swing.JPanel {
         jSplitPane1 = new javax.swing.JSplitPane();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        panControlOfMatchingPanel = new br.usp.ime.faguilar.guis.matching2.PanControlOfMatchingPanel();
+        panControlOfMatchingPanel = new br.usp.ime.faguilar.guis.matching.PanControlOfMatchingPanel();
         jSplitPane2 = new javax.swing.JSplitPane();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -385,7 +385,7 @@ public class PanLabeling extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSplitPane jSplitPane1;
     private javax.swing.JSplitPane jSplitPane2;
-    private br.usp.ime.faguilar.guis.matching2.PanControlOfMatchingPanel panControlOfMatchingPanel;
+    private br.usp.ime.faguilar.guis.matching.PanControlOfMatchingPanel panControlOfMatchingPanel;
     // End of variables declaration//GEN-END:variables
 
     class ComboBoxRenderer extends JLabel

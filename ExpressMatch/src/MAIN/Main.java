@@ -6,6 +6,7 @@
 package MAIN;
 
 import DatabaseMathExpressions.Util;
+import Util.UtilLabeler;
 import br.usp.ime.faguilar.guis.ModelExpressionGroundTruthEditor;
 import br.usp.ime.faguilar.guis.WellComeToSystem.PanWelcome;
 import java.util.ArrayList;
@@ -22,6 +23,9 @@ public class Main {
         setLookAndFeel();
         startExpressMatch();
 
+        //TO RESET MODEL SYMBOL LABELS
+
+//        UtilLabeler.resetModelSymbolLabels();
         //TO TEST GROUND-TRUTH FRAME
 //        testGroundTurhFrame();
 

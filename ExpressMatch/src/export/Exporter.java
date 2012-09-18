@@ -8,6 +8,7 @@ import DatabaseMathExpressions.DBFuntions;
 import DatabaseMathExpressions.ModelExpression;
 import DatabaseMathExpressions.UserExpression;
 import MathExpression.Data.DMathExpression;
+import MathExpression.Graphics.GMathExpression;
 import Util.RWFiles;
 import java.util.ArrayList;
 
@@ -71,7 +72,8 @@ public class Exporter {
             for (UserExpression userExpression : userExpressionsForModel) {
                 DMathExpression dmathUserExpression=userExpression.getdMExpression();
                 DMathExpression dMathmodelExpression = modelDMathExpressionSample.getMathExpression();
-                Util.UtilLabeler.labelSymbols(dmathUserExpression, dMathmodelExpression,
+                Util.UtilLabeler.labelSymbols((GMathExpression)dmathUserExpression,
+                        (GMathExpression) dMathmodelExpression,
                         userExpression.getMatch());
                 MathExpressionSample instanceME=new MathExpressionSample(
                     String.valueOf(modelDMathExpressionSample.getID()),
@@ -103,7 +105,8 @@ public class Exporter {
                 ModelExpression model = database.getModelByID(userExpression.getIdModelExpression());
                 DMathExpression dmathUserExpression=userExpression.getdMExpression();
                 DMathExpression dMathmodelExpression = model.getdMathExpression();
-                Util.UtilLabeler.labelSymbols(dmathUserExpression, dMathmodelExpression,
+                Util.UtilLabeler.labelSymbols((GMathExpression)dmathUserExpression,
+                        (GMathExpression)dMathmodelExpression,
                         userExpression.getMatch());
                 MathExpressionSample instanceME=new MathExpressionSample(
                     String.valueOf(model.getId()),
